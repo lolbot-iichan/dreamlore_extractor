@@ -2,7 +2,7 @@
 Simple python extractor &amp; packer for Dreamlore's VN games.
 
 ### Usage:
-`python dreamlore_extractor.py <game> <path>`, where game is one of `necro` / `cosmos` / `onegin`
+`python dreamlore_extractor.py <game> <path>`, where `<game>` is one of `necro` / `cosmos` / `onegin` and `<path>` depends on what you want to pack / extract / convert.
 
 ### Книга Мёртвых:
 Works with resources data of "Книга Мёртвых".
