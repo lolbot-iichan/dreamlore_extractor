@@ -81,8 +81,8 @@ def usage():
     print "        cosmos <scn-file> with encoded scripts/persistent"
     print "        onegin <cnes-file> with encoded scripts"
     print "    packs:"
-    print "        necro  <folder> with unpacked sav/pak data"
-    print "        cosmos <folder> with unpacked pak data"
+    print "        necro  <folder> with unpacked pak data"
+    print "        cosmos <folder> with unpacked pak/sav data"
     print "        cosmos <scene-file> with readable scripts/persistent"
     print "        onegin <nes-file> with readable scripts"
 
