@@ -62,6 +62,8 @@ def read_files_data(folder):
     return datalist
 
 def write_files_data(folder,datalist):
+    if  not os.path.exists(folder):
+        os.mkdir(folder)
     for n,d in datalist:
         with open(os.path.join(folder,n),"wb") as f:
             if  n[-4:] == ".SCN":
@@ -70,33 +72,55 @@ def write_files_data(folder,datalist):
                 d = recode_data(d,+1)
             f.write(d)
 
-if  len(sys.argv) == 2 and os.path.isfile(sys.argv[1]):
-    data = open(sys.argv[1],"rb").read()
-    if  sys.argv[1][-4:].lower() == ".scn":
-        write_files_data(".",[(sys.argv[1]+".unpack",recode_data(data,-1))])
-    elif sys.argv[1][-7:] == ".unpack":
-        write_files_data(".",[(sys.argv[1][:-7],recode_data(data,+1))])
-    elif sys.argv[1][-5:] == ".cnes":
-        write_files_data(".",[(sys.argv[1][:-5]+".nes",decode_cnes_data(data))])
-    elif sys.argv[1][-4:] == ".nes":
-        write_files_data(".",[(sys.argv[1][:-4]+".cnes",encode_cnes_data(data))])
-    else:
-        folder = sys.argv[1].split(".")[0]
-        if  not os.path.exists(folder):
-            os.mkdir(folder)
-        write_files_data(folder,parse_files_data(data))
-elif len(sys.argv) == 2 and os.path.isdir(sys.argv[1]):
-    files_data = read_files_data(sys.argv[1])
-    suffix = ".sav" if any([n=="temp_.tmp" for n,d in files_data]) else ".pak"
-    write_files_data(".",[(sys.argv[1]+suffix,create_files_data(files_data))])
-else:
-    print "Usage: python " + sys.argv[0] + " <path>"
+def usage():
+    print "Usage: python " + sys.argv[0] + "(necro|cosmos|onegin) <path>"
     print "    extracts:"
-    print "        <pak-file> of Necro Book or Red Cosmos"
-    print "        <sav-file> of Red Cosmos"
-    print "        <SCN-file> of Red Cosmos (triggers.scn)"
-    print "        <cnes-file> of Evgeny Onegin"
+    print "        necro  <pak-file> with packed pak data"
+    print "        cosmos <pak-file> with packed pak data"
+    print "        cosmos <sav-file> with packed sav data"
+    print "        cosmos <scn-file> with encoded scripts/persistent"
+    print "        onegin <cnes-file> with encoded scripts"
     print "    packs:"
-    print "        <folder> with pak or sav of Necro Book or Red Cosmos"
-    print "        <unpack-file> with triggers.scn or Red Cosmos"
-    print "        <nes-file> of Evgeny Onegin"
+    print "        necro  <folder> with unpacked sav/pak data"
+    print "        cosmos <folder> with unpacked pak data"
+    print "        cosmos <scene-file> with readable scripts/persistent"
+    print "        onegin <nes-file> with readable scripts"
+
+if  len(sys.argv) != 3 or sys.argv[1] not in ["necro","cosmos","onegin"]:
+    usage()
+    exit(-1)
+
+game = sys.argv[1]
+path = sys.argv[2]
+
+if  os.path.isfile(path):
+    data = open(path,"rb").read()
+
+    if  game == "necro":
+        if  path.lower().endswith(".pak"):
+            write_files_data(path.split(".")[0],parse_files_data(data))
+        else:
+            usage()
+
+    if  game == "cosmos":
+        if  path.lower().endswith(".scn"):
+            write_files_data(".",[(path[:-4]+".scene",recode_data(data,-1))])
+        elif path.lower().endswith(".scene"):
+            write_files_data(".",[(path[:-6]+".scn",recode_data(data,+1))])
+        elif path.lower().endswith(".sav") or path.lower().endswith(".pak"):
+            write_files_data(path.split(".")[0],parse_files_data(data))
+        else:
+            usage()
+
+    if  game == "onegin":
+        if  path.lower().endswith(".cnes"):
+            write_files_data(".",[(path[:-5]+".nes",decode_cnes_data(data))])
+        elif path.lower().endswith(".nes"):
+            write_files_data(".",[(path[:-4]+".cnes",encode_cnes_data(data))])
+        else:
+            usage()
+
+elif len(sys.argv) == 3 and os.path.isdir(path) and game in ["necro","cosmos"]:
+    files_data = read_files_data(path)
+    suffix = ".sav" if any([n=="temp_.tmp" for n,d in files_data]) else ".pak"
+    write_files_data(".",[(path+suffix,create_files_data(files_data))])
