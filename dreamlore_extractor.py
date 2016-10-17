@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, struct
 
 def create_files_data(datalist):
     offset = 0
@@ -28,6 +28,27 @@ def parse_files_data(data):
 def recode_data(data, delta):
     return ''.join([chr((ord(c)+delta)%256) for c in data])
 
+def xor_cnes_line(l):
+    return ''.join([chr(ord(c)^(210 if i%2 else 243)) for i,c in enumerate(l)])
+
+def decode_cnes_data(data):
+    result = ""
+    offset = 0
+    while offset+4 < len(data):
+        size = struct.unpack('l',data[offset:offset+4])[0]
+        result += xor_cnes_line(data[offset+4:offset+4+size])
+        offset += 4+size
+    return result.decode("utf-16le").encode("1251").replace("\r","\r\n")
+
+def encode_cnes_data(data):
+    result = ""
+    for line in data.replace("\r\n","\r").splitlines(True):
+        l = xor_cnes_line(line.decode("1251").encode("utf-16le"))
+        result += struct.pack('l',len(l)) + l
+    if  line[-1] == "\r":
+        result += struct.pack('l',-16)
+    return result
+
 def read_files_data(folder):
     datalist = []
     for n in os.listdir(folder):
@@ -55,6 +76,10 @@ if  len(sys.argv) == 2 and os.path.isfile(sys.argv[1]):
         write_files_data(".",[(sys.argv[1]+".unpack",recode_data(data,-1))])
     elif sys.argv[1][-7:] == ".unpack":
         write_files_data(".",[(sys.argv[1][:-7],recode_data(data,+1))])
+    elif sys.argv[1][-5:] == ".cnes":
+        write_files_data(".",[(sys.argv[1][:-5]+".nes",decode_cnes_data(data))])
+    elif sys.argv[1][-4:] == ".nes":
+        write_files_data(".",[(sys.argv[1][:-4]+".cnes",encode_cnes_data(data))])
     else:
         folder = sys.argv[1].split(".")[0]
         if  not os.path.exists(folder):
@@ -67,9 +92,11 @@ elif len(sys.argv) == 2 and os.path.isdir(sys.argv[1]):
 else:
     print "Usage: python " + sys.argv[0] + " <path>"
     print "    extracts:"
-    print "        <pak-file> of NecroBook or RedCosmos"
-    print "        <sav-file> of RedCosmos"
-    print "        <SCN-file> of RedCosmos (triggers.scn)"
+    print "        <pak-file> of Necro Book or Red Cosmos"
+    print "        <sav-file> of Red Cosmos"
+    print "        <SCN-file> of Red Cosmos (triggers.scn)"
+    print "        <cnes-file> of Evgeny Onegin"
     print "    packs:"
-    print "        <folder> with pak or sav of NecroBook or RedCosmos"
-    print "        <unpack-file> with triggers.scn or RedCosmos"
+    print "        <folder> with pak or sav of Necro Book or Red Cosmos"
+    print "        <unpack-file> with triggers.scn or Red Cosmos"
+    print "        <nes-file> of Evgeny Onegin"
