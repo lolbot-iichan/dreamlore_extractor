@@ -35,7 +35,7 @@ def decode_cnes_data(data):
     result = ""
     offset = 0
     while offset+4 < len(data):
-        size = struct.unpack('l',data[offset:offset+4])[0]
+        size = struct.unpack('i',data[offset:offset+4])[0]
         result += xor_cnes_line(data[offset+4:offset+4+size])
         offset += 4+size
     return result.decode("utf-16le").encode("1251").replace("\r","\r\n")
@@ -44,9 +44,9 @@ def encode_cnes_data(data):
     result = ""
     for line in data.replace("\r\n","\r").splitlines(True):
         l = xor_cnes_line(line.decode("1251").encode("utf-16le"))
-        result += struct.pack('l',len(l)) + l
+        result += struct.pack('i',len(l)) + l
     if  line[-1] == "\r":
-        result += struct.pack('l',-16)
+        result += struct.pack('i',-16)
     return result
 
 def read_files_data(folder):
