@@ -1,5 +1,11 @@
 ## dreamlore_extractor.py
-Simple python extractor &amp; packer for Dreamlore's VN games.
+Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.com)'s VN games:
+
+1. [Книга мертвых: Потерянные души](http://www.cdnavigator.ru/Game.aspx?id=34)
+
+2. [Красный Космос](http://www.dreamloregames.com/cosmos/)
+
+3. [Евгений Онегин](http://www.dreamloregames.com/onegin/)
 
 ### Usage:
 `python dreamlore_extractor.py <game> <path>`, where 
