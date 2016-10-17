@@ -32,8 +32,14 @@ Works with game state save data of "Красный Космос".
  * `python dreamlore_extractor.py triggers.scn.unpack`
  
 ### Евгений Онегин:
-Works with scenario files of "Евгений Онегин".
+Works with raw scenario files of "Евгений Онегин".
 * converts file `main.cnes` to a human-readable file `main.nes`
  * `python dreamlore_extractor.py main.cnes`
 * converts human-readable file `main.nes` to a file `main.cnes` 
  * `python dreamlore_extractor.py main.nes`
+
+**TODO:** Resorces data file format is not supported.
+
+**TODO:** Persistent save data file format is not supported.
+
+**TODO:** Game state save data file format is not supported.
