@@ -1,4 +1,4 @@
-import os, sys, struct
+import os, sys, struct, zipfile    
 
 def create_files_data(datalist):
     offset = 0
@@ -24,6 +24,20 @@ def parse_files_data(data):
         flist.append((name,size,offset))
         i += namelen+24
     return [(n,data[i+o:i+o+s]) for n,s,o in flist]
+
+onegin_zip_password = "putinissatan" #wtf, lol
+
+def parse_zip_data(path):
+    result = []
+    with zipfile.ZipFile(path, "r") as zip:
+        zip.setpassword(onegin_zip_password)
+        for n in zip.namelist():
+            if  n.endswith(".cnes"):
+                result.append((n,zip.read(n)))
+                result.append((n[:-5]+".nes",decode_cnes_data(zip.read(n))))
+            else:
+                result.append((n,zip.read(n)))
+    return result
 
 def recode_data(data, delta):
     return ''.join([chr((ord(c)+delta)%256) for c in data])
@@ -80,6 +94,7 @@ def usage():
     print "        cosmos <sav-file> with packed sav data"
     print "        cosmos <scn-file> with encoded scripts/persistent"
     print "        onegin <cnes-file> with encoded scripts"
+    print "        onegin <pak-file> with packed pak data (+cnes converted)"
     print "    packs:"
     print "        necro  <folder> with unpacked pak data"
     print "        cosmos <folder> with unpacked pak/sav data"
@@ -117,6 +132,8 @@ if  os.path.isfile(path):
             write_files_data(".",[(path[:-5]+".nes",decode_cnes_data(data))])
         elif path.lower().endswith(".nes"):
             write_files_data(".",[(path[:-4]+".cnes",encode_cnes_data(data))])
+        elif path.lower().endswith(".pak"):
+            write_files_data(path.split(".")[0],parse_zip_data(path))
         else:
             usage()
 
@@ -124,3 +141,6 @@ elif len(sys.argv) == 3 and os.path.isdir(path) and game in ["necro","cosmos"]:
     files_data = read_files_data(path)
     suffix = ".sav" if any([n=="temp_.tmp" for n,d in files_data]) else ".pak"
     write_files_data(".",[(path+suffix,create_files_data(files_data))])
+
+else:
+    usage()
