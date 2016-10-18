@@ -22,11 +22,13 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
 
 >        cosmos <sav-file> with packed sav data
 
->        cosmos <scn-file> with encoded scripts/persistent
+>        cosmos <scn-file> with encoded scripts/persistent data
 
 >        onegin <cnes-file> with encoded scripts
 
 >        onegin <pak-file> with packed pak data (+cnes converted)
+
+>        onegin <sys0.dfn-file> with encoded persistent data
 
 >    packs:
 
@@ -34,9 +36,11 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
 
 >        cosmos <folder> with unpacked pak/sav data
 
->        cosmos <scene-file> with readable scripts/persistent
+>        cosmos <scene-file> with readable scripts/persistent data
 
 >        onegin <nes-file> with readable scripts
+
+>        onegin <sys0.persistent-file> with readable persistent data
 
 ### Книга Мёртвых:
 Works with resources data of "Книга Мёртвых".
@@ -89,6 +93,10 @@ Creating pak-files is not supported because of `zipfile` library limitations.
 
 **NOTE:** pak-file is just a password-protected ZIP archive. Password is "putinissatan".
 
-**TODO:** Persistent save data file format is not supported.
+Works with persistent save data of "Евгений Онегин".
+* converts file `sys0.dfn` to a human-readable file `sys0.persistent`
+ * `python dreamlore_extractor.py onegin main.cnes`
+* converts human-readable file `sys0.persistent` to a file `sys0.dfn` 
+ * `python dreamlore_extractor.py onegin sys0.persistent`
 
 **TODO:** Game state save data file format is not supported.
