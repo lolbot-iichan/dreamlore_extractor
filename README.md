@@ -13,17 +13,29 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
   * `<path>` depends on what you want to pack / extract / convert.
   
 >  Usage: python dreamlore_extractor.py(necro|cosmos|onegin) <path>
+
 >    extracts:
+
 >        necro  <pak-file> with packed pak data
+
 >        cosmos <pak-file> with packed pak data
+
 >        cosmos <sav-file> with packed sav data
+
 >        cosmos <scn-file> with encoded scripts/persistent
+
 >        onegin <cnes-file> with encoded scripts
+
 >        onegin <pak-file> with packed pak data (+cnes converted)
+
 >    packs:
+
 >        necro  <folder> with unpacked pak data
+
 >        cosmos <folder> with unpacked pak/sav data
+
 >        cosmos <scene-file> with readable scripts/persistent
+
 >        onegin <nes-file> with readable scripts
 
 ### Книга Мёртвых:
