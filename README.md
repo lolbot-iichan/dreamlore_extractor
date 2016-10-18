@@ -49,7 +49,15 @@ Works with raw scenario files of "Евгений Онегин".
 * converts human-readable file `main.nes` to a file `main.cnes` 
  * `python dreamlore_extractor.py onegin main.nes`
 
-**TODO:** Resorces data file format is not supported.
+Works with resources data of "Евгений Онегин".
+* unpack file `data0004.pak` to a folder `data0004`
+ * `python dreamlore_extractor.py onegin data0004.pak`
+
+**NOTE:** cnes-scripts are converted to human-readable nes-scripts during unpacking. See above on how to convert them back to binary format.
+
+Creating pak-files is not supported during to limitations of `zipfile` library.
+
+**NOTE:** pak-file is just a password-protected ZIP archive. Password is "putinissatan".
 
 **TODO:** Persistent save data file format is not supported.
 
