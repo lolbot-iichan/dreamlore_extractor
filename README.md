@@ -55,7 +55,7 @@ Works with resources data of "Евгений Онегин".
 
 **NOTE:** cnes-scripts are converted to human-readable nes-scripts during unpacking. See above on how to convert them back to binary format.
 
-Creating pak-files is not supported during to limitations of `zipfile` library.
+Creating pak-files is not supported because of `zipfile` library limitations.
 
 **NOTE:** pak-file is just a password-protected ZIP archive. Password is "putinissatan".
 
