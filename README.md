@@ -12,7 +12,7 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
   * `<game>` is one of `necro` / `cosmos` / `onegin`, 
   * `<path>` depends on what you want to pack / extract / convert.
   
->  Usage: python dreamlore_extractor.py(necro|cosmos|onegin) <path>
+>  Usage: python dreamlore_extractor.py(necro|cosmos|onegin) <path&gt;
 
 >    extracts:
 
