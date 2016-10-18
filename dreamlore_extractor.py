@@ -63,6 +63,18 @@ def encode_cnes_data(data):
         result += struct.pack('i',-16)
     return result
 
+def encode_necro_save_data(data):
+    result = ""
+    data = dict([l.split("=") for l in data.split("\r\n") if "=" in l])
+    if  data["directors_cut"] != "0":
+        result += "D"
+    return result + `int(data["script_line"])+1` + "\n"
+
+def decode_necro_save_data(data):
+    if  data[0] == "D":
+        return "directors_cut=1\r\nscript_line=" + `int(data[1:])-1`
+    return "directors_cut=0\r\nscript_line=" + `int(data)-1`
+
 def read_files_data(folder):
     datalist = []
     for n in os.listdir(folder):
@@ -88,15 +100,17 @@ def write_files_data(folder,datalist):
 
 def usage():
     print "Usage: python " + sys.argv[0] + "(necro|cosmos|onegin) <path>"
-    print "    extracts:"
+    print "    extracts/decodes:"
     print "        necro  <pak-file> with packed pak data"
+    print "        necro  <sav-file> with packed sav data"
     print "        cosmos <pak-file> with packed pak data"
     print "        cosmos <sav-file> with packed sav data"
     print "        cosmos <scn-file> with encoded scripts/persistent"
     print "        onegin <cnes-file> with encoded scripts"
     print "        onegin <pak-file> with packed pak data (+cnes converted)"
-    print "    packs:"
+    print "    packs/encodes:"
     print "        necro  <folder> with unpacked pak data"
+    print "        necro  <save-file> with readable sav data"
     print "        cosmos <folder> with unpacked pak/sav data"
     print "        cosmos <scene-file> with readable scripts/persistent"
     print "        onegin <nes-file> with readable scripts"
@@ -114,6 +128,10 @@ if  os.path.isfile(path):
     if  game == "necro":
         if  path.lower().endswith(".pak"):
             write_files_data(path.split(".")[0],parse_files_data(data))
+        elif path.lower().endswith(".sav"):
+            write_files_data(".",[(path[:-4]+".save",decode_necro_save_data(data))])
+        elif path.lower().endswith(".save"):
+            write_files_data(".",[(path[:-5]+".sav",encode_necro_save_data(data))])
         else:
             usage()
 
