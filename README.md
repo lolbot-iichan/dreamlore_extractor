@@ -21,8 +21,12 @@ Works with resources data of "Книга Мёртвых".
 
 This game does not have persistent save data. Gallery shows BMP files that are phisically unpacked to a folder. Director's Cut Edition availability is not persisted and can be changed by loading a savegame.
 
-**TODO:** Game state save data file format is not supported.
-
+Works with game state save data of "Книга Мёртвых".
+* converts file `16 окт 2016 23-59.sav` to a human-readable file `16 окт 2016 23-59.save`
+ * `python dreamlore_extractor.py necro 15 окт 2016 23-59.sav`
+* converts human-readable file `16 окт 2016 23-59.save` to a file `16 окт 2016 23-59.sav` 
+ * `python dreamlore_extractor.py necro 15 окт 2016 23-59.save`
+ 
 ### Красный Космос:
 Works with resources data of "Красный Космос".
 * unpack file `cosmos.pak` to a folder `cosmos`
