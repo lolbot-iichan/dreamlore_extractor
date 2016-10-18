@@ -132,17 +132,17 @@ def usage():
     print "        necro  <sav-file> with packed sav data"
     print "        cosmos <pak-file> with packed pak data"
     print "        cosmos <sav-file> with packed sav data"
-    print "        cosmos <scn-file> with encoded scripts/persistent"
+    print "        cosmos <scn-file> with encoded scripts/persistent data"
     print "        onegin <cnes-file> with encoded scripts"
     print "        onegin <pak-file> with packed pak data (+cnes converted)"
-    print "        onegin <sys0.dfn-file> with encoded persistent"
+    print "        onegin <sys0.dfn-file> with encoded persistent data"
     print "    packs/encodes:"
     print "        necro  <folder> with unpacked pak data"
     print "        necro  <save-file> with readable sav data"
     print "        cosmos <folder> with unpacked pak/sav data"
-    print "        cosmos <scene-file> with readable scripts/persistent"
+    print "        cosmos <scene-file> with readable scripts/persistent data"
     print "        onegin <nes-file> with readable scripts"
-    print "        onegin <sys0.persistent-file> with readable persistent"
+    print "        onegin <sys0.persistent-file> with readable persistent data"
 
 if  len(sys.argv) != 3 or sys.argv[1] not in ["necro","cosmos","onegin"]:
     usage()
