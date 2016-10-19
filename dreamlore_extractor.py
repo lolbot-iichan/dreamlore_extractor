@@ -90,6 +90,22 @@ def encode_sys0dfn_data(data):
         result += struct.pack('i',len(v)) + v
     return result
 
+def decode_sys1dfn_data(data):
+    sett = struct.unpack('ffff',data)
+    result  = "total=" + "%.1f" % sett[3] + "\n"
+    result += "music=" + "%.1f" % sett[0] + "\n"
+    result += "voice=" + "%.1f" % sett[1] + "\n"
+    result += "sound=" + "%.1f" % sett[2] + "\n"
+    return result
+
+def encode_sys1dfn_data(data):
+    sett = dict([l.split("=") for l in data.split("\n") if l])
+    result  = struct.pack('f',float(sett["music"]))
+    result += struct.pack('f',float(sett["voice"]))
+    result += struct.pack('f',float(sett["sound"]))
+    result += struct.pack('f',float(sett["total"]))
+    return result
+
 def encode_necro_save_data(data):
     result = ""
     data = dict([l.split("=") for l in data.split("\r\n") if "=" in l])
@@ -136,6 +152,7 @@ def usage():
     print "        onegin <cnes-file> with encoded scripts"
     print "        onegin <pak-file> with packed pak data (+cnes converted)"
     print "        onegin <sys0.dfn-file> with encoded persistent data"
+    print "        onegin <sys1.dfn-file> with encoded sound settings"
     print "    packs/encodes:"
     print "        necro  <folder> with unpacked pak data"
     print "        necro  <save-file> with readable sav data"
@@ -143,6 +160,7 @@ def usage():
     print "        cosmos <scene-file> with readable scripts/persistent data"
     print "        onegin <nes-file> with readable scripts"
     print "        onegin <sys0.persistent-file> with readable persistent data"
+    print "        onegin <sys1.persistent-file> with readable sound settings"
 
 if  len(sys.argv) != 3 or sys.argv[1] not in ["necro","cosmos","onegin"]:
     usage()
@@ -185,6 +203,10 @@ if  os.path.isfile(path):
             write_files_data(".",[(path[:-4]+".persistent",decode_sys0dfn_data(data))])
         elif path.lower().endswith("sys0.persistent"):
             write_files_data(".",[(path[:-11]+".dfn",encode_sys0dfn_data(data))])
+        elif path.lower().endswith("sys1.dfn"):
+            write_files_data(".",[(path[:-4]+".persistent",decode_sys1dfn_data(data))])
+        elif path.lower().endswith("sys1.persistent"):
+            write_files_data(".",[(path[:-11]+".dfn",encode_sys1dfn_data(data))])
         else:
             usage()
 
