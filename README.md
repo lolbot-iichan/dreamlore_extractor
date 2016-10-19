@@ -30,6 +30,8 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
 
 >        onegin <sys0.dfn-file> with encoded persistent data
 
+>        onegin <sys0.dfn-file> with encoded sound settings
+
 >    packs:
 
 >        necro  <folder> with unpacked pak data
@@ -41,6 +43,8 @@ Simple python extractor &amp; packer for [Dreamlore](http://www.dreamloregames.c
 >        onegin <nes-file> with readable scripts
 
 >        onegin <sys0.persistent-file> with readable persistent data
+
+>        onegin <sys1.persistent-file> with readable sound settings
 
 ### Книга Мёртвых:
 Works with resources data of "Книга Мёртвых".
@@ -93,10 +97,10 @@ Creating pak-files is not supported because of `zipfile` library limitations.
 
 **NOTE:** pak-file is just a password-protected ZIP archive. Password is "putinissatan".
 
-Works with persistent save data of "Евгений Онегин".
+Works with persistent save data and sound settings of "Евгений Онегин".
 * converts file `sys0.dfn` to a human-readable file `sys0.persistent`
- * `python dreamlore_extractor.py onegin main.cnes`
-* converts human-readable file `sys0.persistent` to a file `sys0.dfn` 
- * `python dreamlore_extractor.py onegin sys0.persistent`
+ * `python dreamlore_extractor.py onegin sys0.dfn`
+* converts human-readable file `sys1.persistent` to a file `sys1.dfn` 
+ * `python dreamlore_extractor.py onegin sys1.persistent`
 
 **TODO:** Game state save data file format is not supported.
