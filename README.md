@@ -68,13 +68,13 @@ Works with resources data of "Красный Космос".
 * pack folder `cosmos` to a file `cosmos.pak`
  * `python dreamlore_extractor.py cosmos cosmos`
 
-Works with persistent save data of "Красный Космос".
+Works with game save data of "Красный Космос".
 * unpack file `16 окт 2016 23-59.sav` to a folder `16 окт 2016 23-59`
  * `python dreamlore_extractor.py cosmos "16 окт 2016 23-59.sav"`
 * pack folder `16 окт 2016 23-59` to a file `16 окт 2016 23-59.sav`
  * `python dreamlore_extractor.py cosmos "16 окт 2016 23-59"` 
 
-Works with game state save data of "Красный Космос".
+Works with persistent state save data of "Красный Космос".
 * converts file `triggers.scn` to a human-readable file `triggers.scn.unpack`
  * `python dreamlore_extractor.py cosmos triggers.scn`
 * converts human-readable file `triggers.scn.unpack` to a file `triggers.scn` 
